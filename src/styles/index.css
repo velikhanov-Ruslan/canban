@@ -1,0 +1,427 @@
+/* Значения взяты из макета Figma (фреймы Colors / Cards / Buttons / Fields / «Экран для разработки») */
+:root {
+  --text-bold: rgba(255, 255, 255, 0.87);
+  --text-regular: rgba(255, 255, 255, 0.6);
+  --icon: rgba(255, 255, 255, 0.8);
+  --red: #fc3639;
+  --red-text: rgba(252, 54, 57, 0.6);
+  --blue: #0184cf;
+  --column-bg: rgba(0, 0, 0, 0.7);
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --card-bg-editing: rgba(255, 255, 255, 0.07);
+  --btn-bg: rgba(255, 255, 255, 0.08);
+  --btn-bg-hover: rgba(255, 255, 255, 0.2);
+  --field-border: rgba(255, 255, 255, 0.5);
+  --search-border: rgba(255, 255, 255, 0.3);
+
+  --radius: 4px;
+  /* 40px на 1920, плавно уменьшается на узких экранах */
+  --gutter: clamp(16px, 2.0834vw, 40px);
+
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-bold);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #0b0b12 url('../assets/bg.jpg') center / cover no-repeat fixed;
+  background-image: image-set(url('../assets/bg.webp') type('image/webp'), url('../assets/bg.jpg') type('image/jpeg'));
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ширина < 768px — горизонтальный скролл; > 1920px — отступы по бокам */
+.page {
+  min-width: 768px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 58px var(--gutter) var(--gutter);
+}
+
+/* ---------- header ---------- */
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+  min-height: 40px;
+  margin-bottom: 52px;
+}
+
+.header__title {
+  grid-column: 1 / 3;
+  margin: 0;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: 0.144px;
+  color: var(--text-bold);
+}
+
+/* ---------- search ---------- */
+
+.search {
+  grid-column: 4;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 40px;
+  padding: 0 20px;
+  border: 1px solid var(--search-border);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.07);
+  cursor: text;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.search:hover {
+  border-color: var(--blue);
+}
+
+.search:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(1, 132, 207, 0.5);
+}
+
+.search__icon {
+  flex: none;
+  color: var(--text-regular);
+}
+
+.search__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--text-bold);
+}
+
+.search__input::placeholder {
+  color: var(--text-regular);
+}
+
+.search__input::-webkit-search-cancel-button {
+  filter: invert(1) opacity(0.6);
+  cursor: pointer;
+}
+
+/* ---------- board ---------- */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 16px;
+  border-radius: var(--radius);
+  background: var(--column-bg);
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  transition: outline-color 0.15s, background-color 0.15s;
+}
+
+.column--over {
+  outline-color: var(--blue);
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.column__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 29px;
+}
+
+.column__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 28px;
+  color: var(--text-bold);
+  white-space: nowrap;
+}
+
+.column__icon {
+  flex: none;
+  color: var(--icon);
+}
+
+.add-btn {
+  flex: none;
+  padding: 4px 0;
+  border: none;
+  background: none;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--text-regular);
+  transition: color 0.15s;
+}
+
+.add-btn:hover,
+.add-btn:focus-visible {
+  color: var(--blue);
+  outline: none;
+}
+
+.add-btn:disabled {
+  opacity: 0.4;
+  color: var(--text-regular);
+  cursor: default;
+}
+
+/* ---------- card ---------- */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  font-size: 14px;
+  cursor: grab;
+  transition: border-color 0.15s;
+}
+
+.card:hover,
+.card:focus-within {
+  border-color: var(--blue);
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+/* просроченные задачи обводятся красным (ТЗ) + красная дата окончания (макет) */
+.card--overdue,
+.card--overdue:hover,
+.card--overdue:focus-within {
+  border-color: var(--red);
+}
+
+.card__row {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+  min-height: 22px;
+}
+
+.card__label {
+  flex: none;
+  font-weight: 400;
+  line-height: 21px;
+  color: var(--text-regular);
+}
+
+.card__value {
+  min-width: 0;
+  font-weight: 700;
+  line-height: 22px;
+  color: var(--text-bold);
+}
+
+.card__row--text {
+  align-items: flex-start;
+}
+
+.card__value--text {
+  overflow-wrap: anywhere;
+}
+
+.card__value--overdue {
+  color: var(--red-text);
+}
+
+/* иконки действий появляются при наведении на карточку */
+.card__tools {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.card:hover .card__tools,
+.card:focus-within .card__tools {
+  opacity: 1;
+}
+
+.icon-btn {
+  display: inline-flex;
+  padding: 0;
+  border: none;
+  background: none;
+  transition: color 0.15s;
+}
+
+.icon-btn:focus-visible {
+  outline: 1px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.icon-btn--edit {
+  color: var(--icon);
+}
+
+.icon-btn--edit:hover {
+  color: var(--blue);
+}
+
+.icon-btn--trash {
+  color: var(--text-regular);
+}
+
+.icon-btn--trash:hover {
+  color: var(--red);
+}
+
+/* ---------- card: editing ---------- */
+
+.card--editing {
+  border-color: var(--blue);
+  background: var(--card-bg-editing);
+  cursor: default;
+}
+
+.card--editing .card__label {
+  min-width: 0;
+}
+
+.field {
+  width: 200px;
+  min-width: 0;
+  height: 22px;
+  padding: 0 10px;
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius);
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--text-bold);
+  caret-color: var(--blue);
+  transition: border-color 0.15s;
+}
+
+.field--wide {
+  flex: 1;
+  width: auto;
+}
+
+.field::placeholder {
+  font-weight: 400;
+  color: var(--text-regular);
+}
+
+.field:hover,
+.field:focus {
+  border-color: var(--blue);
+}
+
+.field--invalid,
+.field--invalid:hover,
+.field--invalid:focus {
+  border-color: var(--red);
+}
+
+.card__error {
+  margin: 0;
+  font-size: 12px;
+  color: var(--red);
+}
+
+.card__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.round-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--btn-bg);
+  transition: background-color 0.15s;
+}
+
+.round-btn:hover,
+.round-btn:focus-visible {
+  background: var(--btn-bg-hover);
+  outline: none;
+}
+
+.round-btn__check {
+  color: var(--blue);
+}
+
+.round-btn__cross {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ---------- адаптив: 4 колонки не помещаются — раскладываем 2×2 ---------- */
+
+@media (max-width: 1279px) {
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .header {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .header__title {
+    grid-column: 1;
+  }
+
+  .search {
+    grid-column: 2;
+  }
+}
